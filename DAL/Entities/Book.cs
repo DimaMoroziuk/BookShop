@@ -10,9 +10,9 @@ namespace DAL.Entities
     public class Book
     {
         public int Id { get; set; }
-        [StringLength(100), MinLength(5), Required]
+        [MaxLength(100), MinLength(5), Required]
         public string Name { get; set; }
-        [StringLength(100), MinLength(5), Required]
+        [MaxLength(100), MinLength(5), Required]
         public string Language { get; set; }
         public int Count { get; set; }
         public bool IsExist { get; set; }
