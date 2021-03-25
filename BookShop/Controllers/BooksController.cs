@@ -6,117 +6,112 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using DAL;
 using DAL.Entities;
+using DAL.Interfases;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BookShop.Controllers
 {
     public class BooksController : ApiController
     {
-        private MyDbContext db = new MyDbContext();
 
+
+        //Переробити 
+        private readonly IRepository<Book> _bookServise;
         // GET: api/Books
-        public IQueryable<Book> GetBooks()
+        public BooksController(IRepository<Book> bookServise)
         {
-            return db.Books;
+            _bookServise = bookServise ?? throw new ArgumentNullException(nameof(bookServise));
+        }
+
+        public async Task<IActionResult> GetAllBooks()
+        {
+            try
+            {
+                //var allBooks = await _bookServise.GetList().ConfigureAwait(false);
+                var allBooks = await _bookServise.GetList().ConfigureAwait(false);
+                return (IActionResult)Ok(allBooks);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                // todo: add logging 
+                return (IActionResult)StatusCode(HttpStatusCode.NotFound);
+            }
+
         }
 
         // GET: api/Books/5
         [ResponseType(typeof(Book))]
-        public IHttpActionResult GetBook(int id)
+        public async Task<IActionResult> GetBook(int id)
         {
-            Book book = db.Books.Find(id);
-            book.Language = "American";
-            if (book == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(book);
-        }
-
-        // PUT: api/Books/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutBook(int id, Book book)
-        {
-            book.Language = "American";
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != book.Id)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(book).State = EntityState.Modified;
-
             try
             {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!BookExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+                var b = await _bookServise.GetObject(id).ConfigureAwait(false);
+                return (IActionResult)Ok(b);
 
-            return StatusCode(HttpStatusCode.NoContent);
+            }
+            catch (Exception exception)
+            {
+                // todo: add logging 
+                return (IActionResult)StatusCode(HttpStatusCode.NotFound);
+            }
         }
 
         // POST: api/Books
         [ResponseType(typeof(Book))]
-        public IHttpActionResult PostBook(Book book)
+        public async Task<IActionResult> PostBook(Book model)
         {
-            book.Language = "American";
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
+                if (model == null)
+                {
+                    throw new ArgumentNullException(nameof(model));
+                }
+
+                var created = _bookServise.Create(model);
+                return (IActionResult)Ok(created);
             }
-
-            db.Books.Add(book);
-            db.SaveChanges();
-
-            return CreatedAtRoute("DefaultApi", new { id = book.Id }, book);
+            catch (Exception exception)
+            {
+                // todo: add logging 
+                return (IActionResult)StatusCode(HttpStatusCode.NotFound);
+            }
         }
 
         // DELETE: api/Books/5
         [ResponseType(typeof(Book))]
-        public IHttpActionResult DeleteBook(int id)
+        public async Task<IActionResult> DeleteBook(int id)
         {
-            Book book = db.Books.Find(id);
-            if (book == null)
+            try
             {
-                return NotFound();
+                await _bookServise.Delete(id).ConfigureAwait(false);
+                return (IActionResult)Ok();
+
             }
-
-            db.Books.Remove(book);
-            db.SaveChanges();
-
-            return Ok(book);
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
+            catch (Exception exception)
             {
-                db.Dispose();
+                // todo: add logging 
+                return (IActionResult)StatusCode(HttpStatusCode.NoContent);
             }
-            base.Dispose(disposing);
+        }
+        [ResponseType(typeof(void))]
+        public async Task<IActionResult> UpdateBook(Book model)
+        {
+            try
+            {
+                await _bookServise.Update(model).ConfigureAwait(false);
+                return (IActionResult)Ok(model.Id);
+            }
+            catch (Exception exception)
+            {
+                // todo: add logging 
+                return(IActionResult)StatusCode(HttpStatusCode.NotFound);
+            }
         }
 
-        private bool BookExists(int id)
-        {
-            return db.Books.Count(e => e.Id == id) > 0;
-        }
     }
 }

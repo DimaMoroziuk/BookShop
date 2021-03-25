@@ -16,23 +16,21 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BookShop.Controllers
 {
-    public class GenresController : ApiController
+    public class AuthorsController : ApiController
     {
-        private readonly IRepository<Genre> _genreServise;
-        // GET: api/Books
-        public GenresController(IRepository<Genre> bookServise)
+        private readonly IRepository<Author> _authorServise;
+        public AuthorsController(IRepository<Author> authorServise)
         {
-            _genreServise = bookServise ?? throw new ArgumentNullException(nameof(bookServise));
+            _authorServise = authorServise ?? throw new ArgumentNullException(nameof(authorServise));
         }
 
-        // GET: api/Genres
-        public async Task<IActionResult> GetGenres()
+        // GET: api/Authors
+        public async Task<IActionResult> GetAuthors()
         {
             try
             {
-                //var allBooks = await _bookServise.GetList().ConfigureAwait(false);
-                var allGeners = await _genreServise.GetList().ConfigureAwait(false);
-                return (IActionResult)Ok(allGeners);
+                var allBooks = await _authorServise.GetList().ConfigureAwait(false);
+                return (IActionResult)Ok(allBooks);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -42,14 +40,14 @@ namespace BookShop.Controllers
 
         }
 
-        // GET: api/Genres/5
-        [ResponseType(typeof(Genre))]
-        public async Task<IActionResult> GetGenre(int id)
+        // GET: api/Authors/5
+        [ResponseType(typeof(Author))]
+        public async Task<IActionResult> GetAuthor(int id)
         {
             try
             {
-                var g = await _genreServise.GetObject(id).ConfigureAwait(false);
-                return (IActionResult)Ok(g);
+                var b = await _authorServise.GetObject(id).ConfigureAwait(false);
+                return (IActionResult)Ok(b);
 
             }
             catch (Exception exception)
@@ -58,14 +56,13 @@ namespace BookShop.Controllers
                 return (IActionResult)StatusCode(HttpStatusCode.NotFound);
             }
         }
-
-        // PUT: api/Genres/5
+        // PUT: api/Authors/5
         [ResponseType(typeof(void))]
-        public async Task<IActionResult> UpdateBook(Genre model)
+        public async Task<IActionResult> UpdateBook(Author model)
         {
             try
             {
-                await _genreServise.Update(model).ConfigureAwait(false);
+                await _authorServise.Update(model).ConfigureAwait(false);
                 return (IActionResult)Ok(model.Id);
             }
             catch (Exception exception)
@@ -75,9 +72,9 @@ namespace BookShop.Controllers
             }
         }
 
-        // POST: api/Genres
-        [ResponseType(typeof(Genre))]
-        public async Task<IActionResult> PostGenre(Genre model)
+        // POST: api/Authors
+        [ResponseType(typeof(Author))]
+        public async Task<IActionResult> PostAuthor(Author model)
         {
             try
             {
@@ -86,7 +83,7 @@ namespace BookShop.Controllers
                     throw new ArgumentNullException(nameof(model));
                 }
 
-                var created = _genreServise.Create(model);
+                var created = _authorServise.Create(model);
                 return (IActionResult)Ok(created);
             }
             catch (Exception exception)
@@ -96,14 +93,15 @@ namespace BookShop.Controllers
             }
         }
 
-        // DELETE: api/Genres/5
-        [ResponseType(typeof(Genre))]
-        public async Task<IActionResult> DeleteGenre(int id)
+        // DELETE: api/Authors/5
+        [ResponseType(typeof(Author))]
+        public async Task<IActionResult> DeleteAuthor(int id)
         {
             try
             {
-                await _genreServise.Delete(id).ConfigureAwait(false);
+                await _authorServise.Delete(id).ConfigureAwait(false);
                 return (IActionResult)Ok();
+
             }
             catch (Exception exception)
             {
@@ -111,6 +109,5 @@ namespace BookShop.Controllers
                 return (IActionResult)StatusCode(HttpStatusCode.NoContent);
             }
         }
-
     }
 }

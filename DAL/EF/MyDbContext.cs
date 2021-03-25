@@ -10,6 +10,8 @@ namespace DAL
         public MyDbContext()
             : base("name=DbShopBooks")
         {
+            this.Configuration.LazyLoadingEnabled = false;
+            this.Configuration.ProxyCreationEnabled = false;
         }
         public virtual DbSet<Author> Authors { get; set; }
         public virtual DbSet<Book> Books { get; set; }
