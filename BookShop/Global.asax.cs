@@ -15,7 +15,6 @@ namespace BookShop
     {
         protected void Application_Start()
         {
-            Database.SetInitializer(new Initializer());
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
