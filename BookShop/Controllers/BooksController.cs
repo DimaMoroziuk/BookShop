@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using DAL.Entities;
+using DAL.Interfases;
+using System;
 using System.Data.Entity.Infrastructure;
-using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
-using DAL;
-using DAL.Entities;
-using DAL.Interfases;
-using Microsoft.AspNetCore.Mvc;
 
 namespace BookShop.Controllers
 {
@@ -25,38 +18,38 @@ namespace BookShop.Controllers
             _books = books;
         }
 
-        public async Task<IActionResult> GetAllBooks()
+        public async Task<IHttpActionResult> GetAllBooks()
         {
             try
             {
-                return (IActionResult)Ok(await _books.GetAllBooksAsync());
+                return Ok(await _books.GetAllBooksAsync());
             }
             catch (DbUpdateConcurrencyException)
             {
                 // todo: add logging 
-                return (IActionResult)StatusCode(HttpStatusCode.NotFound);
+                return StatusCode(HttpStatusCode.NotFound);
             }
 
         }
 
         // GET: api/Books/5
         [ResponseType(typeof(Book))]
-        public async Task<IActionResult> GetBook(int id)
+        public async Task<IHttpActionResult> GetBook(int id)
         {
             try
             {
-                return (IActionResult)Ok(await _books.GetBookAsync(id));
+                return Ok(await _books.GetBookAsync(id));
             }
             catch (Exception exception)
             {
                 // todo: add logging 
-                return (IActionResult)StatusCode(HttpStatusCode.NotFound);
+                return StatusCode(HttpStatusCode.NotFound);
             }
         }
 
         // POST: api/Books
         [ResponseType(typeof(Book))]
-        public async Task<IActionResult> PostBook([FromBody] Book model)
+        public async Task<IHttpActionResult> PostBook([FromBody] Book model)
         {
             try
             {
@@ -64,11 +57,11 @@ namespace BookShop.Controllers
                 {
                     throw new ArgumentNullException(nameof(model));
                 }
-                return (IActionResult)Ok(await _books.CreateBookAsync(model));
+                return Ok(await _books.CreateBookAsync(model));
             }
             catch (Exception exception)
             {
-                return (IActionResult)StatusCode(HttpStatusCode.NotFound);
+                return StatusCode(HttpStatusCode.NotFound);
             }
         }
 
@@ -84,20 +77,20 @@ namespace BookShop.Controllers
             catch (Exception exception)
             {
                 // todo: add logging 
-               // return (IActionResult)StatusCode(HttpStatusCode.NoContent);
+                // return (IActionResult)StatusCode(HttpStatusCode.NoContent);
             }
         }
         [ResponseType(typeof(void))]
-        public async Task<IActionResult> UpdateBook(Book model)
+        public async Task<IHttpActionResult> UpdateBook(Book model)
         {
             try
             {
-                return (IActionResult)Ok(await _books.UpdateBookAsync(model));
+                return Ok(await _books.UpdateBookAsync(model));
             }
             catch (Exception exception)
             {
                 // todo: add logging 
-                return(IActionResult)StatusCode(HttpStatusCode.NotFound);
+                return StatusCode(HttpStatusCode.NotFound);
             }
         }
 

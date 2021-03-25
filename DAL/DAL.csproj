@@ -62,7 +62,7 @@
     <Compile Include="Interfases\IBookRepository.cs" />
     <Compile Include="Interfases\IGenreRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Servises\AuthorService.cs" />
+    <Compile Include="Servises\AuthorRepository.cs" />
     <Compile Include="Servises\BookRepository.cs" />
     <Compile Include="Servises\GenreRepository.cs" />
   </ItemGroup>
