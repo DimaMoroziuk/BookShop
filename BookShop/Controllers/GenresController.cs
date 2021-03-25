@@ -18,11 +18,11 @@ namespace BookShop.Controllers
 {
     public class GenresController : ApiController
     {
-        private readonly IRepository<Genre> _genreServise;
+        private readonly IGenreRepository _genres;
         // GET: api/Books
-        public GenresController(IRepository<Genre> bookServise)
+        public GenresController(IGenreRepository genres)
         {
-            _genreServise = bookServise ?? throw new ArgumentNullException(nameof(bookServise));
+            _genres = genres;
         }
 
         // GET: api/Genres
@@ -30,9 +30,7 @@ namespace BookShop.Controllers
         {
             try
             {
-                //var allBooks = await _bookServise.GetList().ConfigureAwait(false);
-                var allGeners = await _genreServise.GetList().ConfigureAwait(false);
-                return (IActionResult)Ok(allGeners);
+                return (IActionResult)Ok(await _genres.GetAllGenresAsync());
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -48,8 +46,7 @@ namespace BookShop.Controllers
         {
             try
             {
-                var g = await _genreServise.GetObject(id).ConfigureAwait(false);
-                return (IActionResult)Ok(g);
+                return (IActionResult)Ok(await _genres.GetGenreAsync(id));
 
             }
             catch (Exception exception)
@@ -65,8 +62,7 @@ namespace BookShop.Controllers
         {
             try
             {
-                await _genreServise.Update(model).ConfigureAwait(false);
-                return (IActionResult)Ok(model.Id);
+                return (IActionResult)Ok(await _genres.UpdateGenreAsync(model));
             }
             catch (Exception exception)
             {
@@ -86,8 +82,7 @@ namespace BookShop.Controllers
                     throw new ArgumentNullException(nameof(model));
                 }
 
-                var created = _genreServise.Create(model);
-                return (IActionResult)Ok(created);
+                return (IActionResult)Ok(await _genres.CreateGenreAsync(model));
             }
             catch (Exception exception)
             {
@@ -98,17 +93,17 @@ namespace BookShop.Controllers
 
         // DELETE: api/Genres/5
         [ResponseType(typeof(Genre))]
-        public async Task<IActionResult> DeleteGenre(int id)
+        public async Task DeleteGenre(int id)
         {
             try
             {
-                await _genreServise.Delete(id).ConfigureAwait(false);
-                return (IActionResult)Ok();
+                await _genres.DeleteGenreAsync(id);
+                //return (IActionResult)Ok();
             }
             catch (Exception exception)
             {
                 // todo: add logging 
-                return (IActionResult)StatusCode(HttpStatusCode.NoContent);
+                //return (IActionResult)StatusCode(HttpStatusCode.NoContent);
             }
         }
 

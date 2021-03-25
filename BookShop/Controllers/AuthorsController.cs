@@ -18,10 +18,10 @@ namespace BookShop.Controllers
 {
     public class AuthorsController : ApiController
     {
-        private readonly IRepository<Author> _authorServise;
-        public AuthorsController(IRepository<Author> authorServise)
+        private readonly IAuthorRepository _authors;
+        public AuthorsController(IAuthorRepository authors)
         {
-            _authorServise = authorServise ?? throw new ArgumentNullException(nameof(authorServise));
+            _authors = authors;
         }
 
         // GET: api/Authors
@@ -29,8 +29,7 @@ namespace BookShop.Controllers
         {
             try
             {
-                var allBooks = await _authorServise.GetList().ConfigureAwait(false);
-                return (IActionResult)Ok(allBooks);
+                return (IActionResult)Ok(_authors.GetAllAuthorsAsync());
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -46,8 +45,7 @@ namespace BookShop.Controllers
         {
             try
             {
-                var b = await _authorServise.GetObject(id).ConfigureAwait(false);
-                return (IActionResult)Ok(b);
+                return (IActionResult)Ok(_authors.GetAuthorAsync(id));
 
             }
             catch (Exception exception)
@@ -62,8 +60,7 @@ namespace BookShop.Controllers
         {
             try
             {
-                await _authorServise.Update(model).ConfigureAwait(false);
-                return (IActionResult)Ok(model.Id);
+                return (IActionResult)Ok(_authors.UpdateAuthorAsync(model));
             }
             catch (Exception exception)
             {
@@ -83,8 +80,7 @@ namespace BookShop.Controllers
                     throw new ArgumentNullException(nameof(model));
                 }
 
-                var created = _authorServise.Create(model);
-                return (IActionResult)Ok(created);
+                return (IActionResult)Ok(_authors.CreateAuthorAsync(model));
             }
             catch (Exception exception)
             {
@@ -95,18 +91,17 @@ namespace BookShop.Controllers
 
         // DELETE: api/Authors/5
         [ResponseType(typeof(Author))]
-        public async Task<IActionResult> DeleteAuthor(int id)
+        public async Task DeleteAuthor(int id)
         {
             try
             {
-                await _authorServise.Delete(id).ConfigureAwait(false);
-                return (IActionResult)Ok();
+                await _authors.DeleteAuthorAsync(id);
 
             }
             catch (Exception exception)
             {
-                // todo: add logging 
-                return (IActionResult)StatusCode(HttpStatusCode.NoContent);
+                // todo: add logging
+
             }
         }
     }

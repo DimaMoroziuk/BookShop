@@ -18,23 +18,18 @@ namespace BookShop.Controllers
 {
     public class BooksController : ApiController
     {
-
-
-        //Переробити 
-        private readonly IRepository<Book> _bookServise;
+        private readonly IBookRepository _books;
         // GET: api/Books
-        public BooksController(IRepository<Book> bookServise)
+        public BooksController(IBookRepository books)
         {
-            _bookServise = bookServise ?? throw new ArgumentNullException(nameof(bookServise));
+            _books = books;
         }
 
         public async Task<IActionResult> GetAllBooks()
         {
             try
             {
-                //var allBooks = await _bookServise.GetList().ConfigureAwait(false);
-                var allBooks = await _bookServise.GetList().ConfigureAwait(false);
-                return (IActionResult)Ok(allBooks);
+                return (IActionResult)Ok(await _books.GetAllBooksAsync());
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -50,9 +45,7 @@ namespace BookShop.Controllers
         {
             try
             {
-                var b = await _bookServise.GetObject(id).ConfigureAwait(false);
-                return (IActionResult)Ok(b);
-
+                return (IActionResult)Ok(await _books.GetBookAsync(id));
             }
             catch (Exception exception)
             {
@@ -63,7 +56,7 @@ namespace BookShop.Controllers
 
         // POST: api/Books
         [ResponseType(typeof(Book))]
-        public async Task<IActionResult> PostBook(Book model)
+        public async Task<IActionResult> PostBook([FromBody] Book model)
         {
             try
             {
@@ -71,31 +64,27 @@ namespace BookShop.Controllers
                 {
                     throw new ArgumentNullException(nameof(model));
                 }
-
-                var created = _bookServise.Create(model);
-                return (IActionResult)Ok(created);
+                return (IActionResult)Ok(await _books.CreateBookAsync(model));
             }
             catch (Exception exception)
             {
-                // todo: add logging 
                 return (IActionResult)StatusCode(HttpStatusCode.NotFound);
             }
         }
 
         // DELETE: api/Books/5
         [ResponseType(typeof(Book))]
-        public async Task<IActionResult> DeleteBook(int id)
+        public async Task DeleteBook(int id)
         {
             try
             {
-                await _bookServise.Delete(id).ConfigureAwait(false);
-                return (IActionResult)Ok();
-
+                //return (IActionResult)Ok();
+                await _books.DeleteBookAsync(id);
             }
             catch (Exception exception)
             {
                 // todo: add logging 
-                return (IActionResult)StatusCode(HttpStatusCode.NoContent);
+               // return (IActionResult)StatusCode(HttpStatusCode.NoContent);
             }
         }
         [ResponseType(typeof(void))]
@@ -103,8 +92,7 @@ namespace BookShop.Controllers
         {
             try
             {
-                await _bookServise.Update(model).ConfigureAwait(false);
-                return (IActionResult)Ok(model.Id);
+                return (IActionResult)Ok(await _books.UpdateBookAsync(model));
             }
             catch (Exception exception)
             {
