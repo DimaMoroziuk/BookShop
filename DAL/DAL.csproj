@@ -85,8 +85,10 @@
     <Compile Include="Entities\Author.cs" />
     <Compile Include="Entities\Book.cs" />
     <Compile Include="Entities\Genre.cs" />
+    <Compile Include="Interfases\IAuthorRepository.cs" />
+    <Compile Include="Interfases\IBookRepository.cs" />
+    <Compile Include="Interfases\IGenreRepository.cs" />
     <Compile Include="Entities\IdentityModels.cs" />
-    <Compile Include="Interfases\IRepository.cs" />
     <Compile Include="Login\ApplicationOAuthProvider.cs" />
     <Compile Include="Login\Startup1.cs" />
     <Compile Include="Migrations\202103251643569_InitialDb.cs" />
@@ -95,9 +97,9 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Servises\AuthorService.cs" />
-    <Compile Include="Servises\BookService.cs" />
-    <Compile Include="Servises\GenreService.cs" />
+    <Compile Include="Servises\AuthorRepository.cs" />
+    <Compile Include="Servises\BookRepository.cs" />
+    <Compile Include="Servises\GenreRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
