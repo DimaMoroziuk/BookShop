@@ -15,7 +15,7 @@ namespace BookShop.Controllers
     {
         [Route("api/User/Register")]
         [HttpPost]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public IdentityResult Register(AccountModel model) {
             var userStore = new UserStore<ApplicationUser>(new ApplicationDbContext());
             var manager = new UserManager<ApplicationUser>(userStore);
@@ -27,6 +27,7 @@ namespace BookShop.Controllers
 
         [HttpGet]
         [Route("api/GetUserClaims")]
+        [Authorize]
         public AccountModel GetUserClaims() {
             var identityClaims = (ClaimsIdentity)User.Identity;
             IEnumerable<Claim> claims = identityClaims.Claims;

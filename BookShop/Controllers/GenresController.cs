@@ -51,6 +51,7 @@ namespace BookShop.Controllers
 
         // PUT: api/Genres/5
         [ResponseType(typeof(void))]
+        [HttpPut]
         public async Task<IHttpActionResult> UpdateBook(Genre model)
         {
             try
@@ -66,6 +67,7 @@ namespace BookShop.Controllers
 
         // POST: api/Genres
         [ResponseType(typeof(Genre))]
+        [HttpPost]
         public async Task<IHttpActionResult> PostGenre(Genre model)
         {
             try
@@ -86,6 +88,7 @@ namespace BookShop.Controllers
 
         // DELETE: api/Genres/5
         [ResponseType(typeof(Genre))]
+        [HttpDelete]
         public async Task DeleteGenre(int id)
         {
             try

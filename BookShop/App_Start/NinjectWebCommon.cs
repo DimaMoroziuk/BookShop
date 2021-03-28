@@ -4,7 +4,7 @@
 namespace BookShop.App_Start
 {
     using DAL.Interfases;
-    using DAL.Servises;
+    using DAL.Repositories;
     using Microsoft.Web.Infrastructure.DynamicModuleHelper;
     using Ninject;
     using Ninject.Web.Common;

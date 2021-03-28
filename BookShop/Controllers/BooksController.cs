@@ -47,8 +47,9 @@ namespace BookShop.Controllers
             }
         }
 
-        // POST: api/Books
+        // POST: api/Books\
         [ResponseType(typeof(Book))]
+        [HttpPost]
         public async Task<IHttpActionResult> PostBook([FromBody] Book model)
         {
             try
@@ -67,6 +68,7 @@ namespace BookShop.Controllers
 
         // DELETE: api/Books/5
         [ResponseType(typeof(Book))]
+        [HttpDelete]
         public async Task DeleteBook(int id)
         {
             try
@@ -80,7 +82,9 @@ namespace BookShop.Controllers
                 // return (IActionResult)StatusCode(HttpStatusCode.NoContent);
             }
         }
+
         [ResponseType(typeof(void))]
+        [HttpPut]
         public async Task<IHttpActionResult> UpdateBook(Book model)
         {
             try

@@ -5,7 +5,8 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DAL.Servises
+namespace DAL.Repositories
+
 {
     public class BookRepository : IBookRepository
     {

@@ -49,7 +49,8 @@ namespace BookShop.Controllers
         }
         // PUT: api/Authors/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> UpdateBook(Author model)
+        [HttpPut]
+        public async Task<IHttpActionResult> UpdateAuthor(Author model)
         {
             try
             {
@@ -64,6 +65,7 @@ namespace BookShop.Controllers
 
         // POST: api/Authors
         [ResponseType(typeof(Author))]
+        [HttpPost]
         public async Task<IHttpActionResult> PostAuthor(Author model)
         {
             try
@@ -84,6 +86,7 @@ namespace BookShop.Controllers
 
         // DELETE: api/Authors/5
         [ResponseType(typeof(Author))]
+        [HttpDelete]
         public async Task DeleteAuthor(int id)
         {
             try
