@@ -1,4 +1,5 @@
-﻿using DAL.EF;
+﻿using DAL;
+using DAL.EF;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -15,7 +16,9 @@ namespace BookShop
     {
         protected void Application_Start()
         {
-            Database.SetInitializer(new Initializer());
+            MyDbContext con = new MyDbContext();
+            con.Database.Initialize(true);
+            con.Database.CreateIfNotExists();
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
