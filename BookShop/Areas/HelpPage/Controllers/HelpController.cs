@@ -1,8 +1,8 @@
+using BookShop.Areas.HelpPage.ModelDescriptions;
+using BookShop.Areas.HelpPage.Models;
 using System;
 using System.Web.Http;
 using System.Web.Mvc;
-using BookShop.Areas.HelpPage.ModelDescriptions;
-using BookShop.Areas.HelpPage.Models;
 
 namespace BookShop.Areas.HelpPage.Controllers
 {
