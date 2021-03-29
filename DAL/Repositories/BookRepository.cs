@@ -29,8 +29,8 @@ namespace DAL.Repositories
 
         public async Task DeleteBookAsync(int id)
         {
-            var obj = _myDbContext.Books.FirstOrDefault(s => s.Id == id);
-            _myDbContext.Books.Remove(obj);
+            var book = _myDbContext.Books.FirstOrDefault(s => s.Id == id);
+            _myDbContext.Books.Remove(book);
             await _myDbContext.SaveChangesAsync();
         }
 

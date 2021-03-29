@@ -19,88 +19,45 @@ namespace BookShop.Controllers
         }
 
         // GET: api/Genres
+        [Route("api/Genre/GetAll")]
         public async Task<IHttpActionResult> GetGenres()
         {
-            try
-            {
-                return Ok(await _genres.GetAllGenresAsync());
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                // todo: add logging 
-                return StatusCode(HttpStatusCode.NotFound);
-            }
-
+            return Ok(await _genres.GetAllGenresAsync());
         }
 
         // GET: api/Genres/5
+        [Route("api/Genre/GetById")]
         [ResponseType(typeof(Genre))]
         public async Task<IHttpActionResult> GetGenre(int id)
         {
-            try
-            {
-                return Ok(await _genres.GetGenreAsync(id));
-
-            }
-            catch (Exception exception)
-            {
-                // todo: add logging 
-                return StatusCode(HttpStatusCode.NotFound);
-            }
+            return Ok(await _genres.GetGenreAsync(id));
         }
 
         // PUT: api/Genres/5
+        [Route("api/Genre/Update")]
         [ResponseType(typeof(void))]
         [HttpPut]
         public async Task<IHttpActionResult> UpdateBook(Genre model)
         {
-            try
-            {
-                return Ok(await _genres.UpdateGenreAsync(model));
-            }
-            catch (Exception exception)
-            {
-                // todo: add logging 
-                return StatusCode(HttpStatusCode.NotFound);
-            }
+            return Ok(await _genres.UpdateGenreAsync(model));
         }
 
         // POST: api/Genres
+        [Route("api/Genre/AddNew")]
         [ResponseType(typeof(Genre))]
         [HttpPost]
         public async Task<IHttpActionResult> PostGenre(Genre model)
         {
-            try
-            {
-                if (model == null)
-                {
-                    throw new ArgumentNullException(nameof(model));
-                }
-
-                return Ok(await _genres.CreateGenreAsync(model));
-            }
-            catch (Exception exception)
-            {
-                // todo: add logging 
-                return StatusCode(HttpStatusCode.NotFound);
-            }
+            return Ok(await _genres.CreateGenreAsync(model));
         }
 
         // DELETE: api/Genres/5
+        [Route("api/Genre/Delete")]
         [ResponseType(typeof(Genre))]
         [HttpDelete]
         public async Task DeleteGenre(int id)
         {
-            try
-            {
-                await _genres.DeleteGenreAsync(id);
-                //return (IActionResult)Ok();
-            }
-            catch (Exception exception)
-            {
-                // todo: add logging 
-                //return (IActionResult)StatusCode(HttpStatusCode.NoContent);
-            }
+            await _genres.DeleteGenreAsync(id);
         }
 
     }

@@ -28,8 +28,8 @@ namespace DAL.Repositories
 
         public async Task DeleteAuthorAsync(int id)
         {
-            var obj = _myDbContext.Authors.FirstOrDefault(s => s.Id == id);
-            _myDbContext.Authors.Remove(obj);
+            var author = _myDbContext.Authors.FirstOrDefault(s => s.Id == id);
+            _myDbContext.Authors.Remove(author);
             await _myDbContext.SaveChangesAsync();
         }
 

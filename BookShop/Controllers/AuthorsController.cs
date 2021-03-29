@@ -18,87 +18,44 @@ namespace BookShop.Controllers
         }
 
         // GET: api/Authors
+        [Route("api/Author/GetAll")]
         public async Task<IHttpActionResult> GetAuthors()
         {
-            try
-            {
-                return Ok(await _authors.GetAllAuthorsAsync());
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                // todo: add logging 
-                return StatusCode(HttpStatusCode.NotFound);
-            }
-
+            return Ok(await _authors.GetAllAuthorsAsync());
         }
 
         // GET: api/Authors/5
+        [Route("api/Author/GetById")]
         [ResponseType(typeof(Author))]
         public async Task<IHttpActionResult> GetAuthor(int id)
         {
-            try
-            {
-                return Ok(await _authors.GetAuthorAsync(id));
-
-            }
-            catch (Exception exception)
-            {
-                // todo: add logging 
-                return StatusCode(HttpStatusCode.NotFound);
-            }
+            return Ok(await _authors.GetAuthorAsync(id));
         }
         // PUT: api/Authors/5
+        [Route("api/Author/Update")]
         [ResponseType(typeof(void))]
         [HttpPut]
         public async Task<IHttpActionResult> UpdateAuthor(Author model)
         {
-            try
-            {
-                return Ok(await _authors.UpdateAuthorAsync(model));
-            }
-            catch (Exception exception)
-            {
-                // todo: add logging 
-                return StatusCode(HttpStatusCode.NotFound);
-            }
+            return Ok(await _authors.UpdateAuthorAsync(model));
         }
 
         // POST: api/Authors
+        [Route("api/Author/AddNew")]
         [ResponseType(typeof(Author))]
         [HttpPost]
         public async Task<IHttpActionResult> PostAuthor(Author model)
         {
-            try
-            {
-                if (model == null)
-                {
-                    throw new ArgumentNullException(nameof(model));
-                }
-
-                return Ok(await _authors.CreateAuthorAsync(model));
-            }
-            catch (Exception exception)
-            {
-                // todo: add logging 
-                return StatusCode(HttpStatusCode.NotFound);
-            }
+            return Ok(await _authors.CreateAuthorAsync(model));
         }
 
         // DELETE: api/Authors/5
+        [Route("api/Author/Delete")]
         [ResponseType(typeof(Author))]
         [HttpDelete]
         public async Task DeleteAuthor(int id)
         {
-            try
-            {
-                await _authors.DeleteAuthorAsync(id);
-
-            }
-            catch (Exception exception)
-            {
-                // todo: add logging
-
-            }
+            await _authors.DeleteAuthorAsync(id);
         }
     }
 }

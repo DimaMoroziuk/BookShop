@@ -18,84 +18,44 @@ namespace BookShop.Controllers
             _books = books;
         }
 
+        [Route("api/Book/GetAll")]
         public async Task<IHttpActionResult> GetAllBooks()
         {
-            try
-            {
-                return Ok(await _books.GetAllBooksAsync());
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                // todo: add logging 
-                return StatusCode(HttpStatusCode.NotFound);
-            }
-
+            return Ok(await _books.GetAllBooksAsync());
         }
 
         // GET: api/Books/5
+        [Route("api/Book/GetById")]
         [ResponseType(typeof(Book))]
         public async Task<IHttpActionResult> GetBook(int id)
         {
-            try
-            {
-                return Ok(await _books.GetBookAsync(id));
-            }
-            catch (Exception exception)
-            {
-                // todo: add logging 
-                return StatusCode(HttpStatusCode.NotFound);
-            }
+            return Ok(await _books.GetBookAsync(id));
         }
 
         // POST: api/Books\
+        [Route("api/Book/AddNew")]
         [ResponseType(typeof(Book))]
         [HttpPost]
         public async Task<IHttpActionResult> PostBook([FromBody] Book model)
         {
-            try
-            {
-                if (model == null)
-                {
-                    throw new ArgumentNullException(nameof(model));
-                }
-                return Ok(await _books.CreateBookAsync(model));
-            }
-            catch (Exception exception)
-            {
-                return StatusCode(HttpStatusCode.NotFound);
-            }
+            return Ok(await _books.CreateBookAsync(model));
         }
 
         // DELETE: api/Books/5
+        [Route("api/Book/Delete")]
         [ResponseType(typeof(Book))]
         [HttpDelete]
         public async Task DeleteBook(int id)
         {
-            try
-            {
-                //return (IActionResult)Ok();
-                await _books.DeleteBookAsync(id);
-            }
-            catch (Exception exception)
-            {
-                // todo: add logging 
-                // return (IActionResult)StatusCode(HttpStatusCode.NoContent);
-            }
+            await _books.DeleteBookAsync(id);
         }
 
+        [Route("api/Book/Update")]
         [ResponseType(typeof(void))]
         [HttpPut]
         public async Task<IHttpActionResult> UpdateBook(Book model)
         {
-            try
-            {
-                return Ok(await _books.UpdateBookAsync(model));
-            }
-            catch (Exception exception)
-            {
-                // todo: add logging 
-                return StatusCode(HttpStatusCode.NotFound);
-            }
+            return Ok(await _books.UpdateBookAsync(model));
         }
 
     }
